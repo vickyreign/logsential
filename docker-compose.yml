@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  opensearch-node:
+    image: opensearchproject/opensearch:2.11.0
+    container_name: opensearch-siem
+    environment:
+      - discovery.type=single-node
+      - "DISABLE_INSTALL_DEMO_CONFIG=true"
+      - "DISABLE_SECURITY_PLUGIN=true"
+    ports:
+      - "9200:9200"
+
+  opensearch-dashboards:
+    image: opensearchproject/opensearch-dashboards:2.11.0
+    container_name: siem-dashboards
+    ports:
+      - "5601:5601"
+    environment:
+      OPENSEARCH_HOSTS: '["http://opensearch-node:9200"]'
+      DISABLE_SECURITY_DASHBOARDS_PLUGIN: "true"
